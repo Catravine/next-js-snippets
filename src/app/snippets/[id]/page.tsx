@@ -37,3 +37,13 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
     </div>
   )
 }
+
+// runs at buildtime; this way we can cache ids.
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+  return snippets.map((snippet) => {
+    return {
+      id: snippet.id.toString() // type needs to match
+    }
+  });
+}
